@@ -1,0 +1,30 @@
+services:
+  # A static site for our front-end
+  - type: static
+    name: ai-voice-sales-client
+    env: react
+    buildCommand: npm install && npm run build:client
+    # The output from the build command
+    publishDir: ./dist
+    # Set up a rewrite rule to direct all paths to index.html for client-side routing
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # A web service for our back-end
+  - type: web
+    name: ai-voice-sales-server
+    env: node
+    # The build command for the server
+    buildCommand: npm install && npm run build:server
+    # The command to start the server
+    startCommand: npm run start
+    # Set up environment variables from your .env file
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - fromGroup: ai-voice-sales-env
+
+# You will need to create an "Environment Group" in the Render dashboard
+# called "ai-voice-sales-env" and add all the secrets from your .env file there.
