@@ -44,7 +44,7 @@
   # Use esbuild for better performance
   node_bundler = "esbuild"
   # Include required external modules
-  external_node_modules = ["@google/genai", "@neondatabase/serverless", "express", "serverless-http"]
+  external_node_modules = ["@google/genai", "@neondatabase/serverless", "express", "serverless-http", "esbuild"]
   # Include shared files
   included_files = ["shared/**"]
   # Increase function timeout to 10 seconds (Netlify's max for non-enterprise)
