@@ -115,7 +115,7 @@ class SheetsService {
           spreadsheetId: this.spreadsheetId,
           range: 'Conversations!A:W',
           valueInputOption: 'RAW',
-          resource: { values },
+          requestBody: { values },
         });
       } catch (err: any) {
         if (err?.code === 404 || err?.status === 404) {
@@ -125,7 +125,7 @@ class SheetsService {
             spreadsheetId: this.spreadsheetId,
             range: 'Conversations!A:W',
             valueInputOption: 'RAW',
-            resource: { values },
+            requestBody: { values },
           });
         } else {
           throw err;
@@ -169,7 +169,7 @@ class SheetsService {
           spreadsheetId: this.spreadsheetId,
           range: 'Bookings!A:L',
           valueInputOption: 'RAW',
-          resource: { values },
+          requestBody: { values },
         });
       } catch (err: any) {
         if (err?.code === 404 || err?.status === 404) {
@@ -179,7 +179,7 @@ class SheetsService {
             spreadsheetId: this.spreadsheetId,
             range: 'Bookings!A:L',
             valueInputOption: 'RAW',
-            resource: { values },
+            requestBody: { values },
           });
         } else {
           throw err;
@@ -207,7 +207,7 @@ class SheetsService {
       try {
         await sheets.spreadsheets.batchUpdate({
           spreadsheetId: this.spreadsheetId,
-          resource: {
+          requestBody: {
             requests: [
               {
                 addSheet: {
@@ -282,14 +282,14 @@ class SheetsService {
           spreadsheetId: this.spreadsheetId,
           range: 'Conversations!A1:W1',
           valueInputOption: 'RAW',
-          resource: { values: [conversationHeaders] },
+          requestBody: { values: [conversationHeaders] },
         });
 
         await sheets.spreadsheets.values.update({
           spreadsheetId: this.spreadsheetId,
           range: 'Bookings!A1:L1',
           valueInputOption: 'RAW',
-          resource: { values: [bookingHeaders] },
+          requestBody: { values: [bookingHeaders] },
         });
 
         console.log('Google Sheets initialized successfully');

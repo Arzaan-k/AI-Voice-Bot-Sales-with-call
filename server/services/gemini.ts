@@ -2,9 +2,12 @@ import { GoogleGenAI } from "@google/genai";
 import type { GeminiRequest, GeminiResponse } from "../../client/src/lib/gemini";
 import { SALES_PROMPT } from "../../client/src/lib/gemini";
 
-const ai = new GoogleGenAI({ 
-  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "AIzaSyD6ESAccfwJD95FKTXtj6DhWWFXOPxIL68" 
-});
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  throw new Error("GEMINI_API_KEY environment variable not set");
+}
+
+const ai = new GoogleGenAI({ apiKey });
 
 class GeminiService {
   async generateResponse(request: GeminiRequest): Promise<GeminiResponse> {
