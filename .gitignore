@@ -35,9 +35,9 @@ yarn-error.log*
 .netlify
 
 # Credentials
-google-service-account.json
+# google-service-account.json
 attached_assets/*.json
 *.tar.gz
 
 # Local development
-.server/google-service-account.json
+# .server/google-service-account.json
