@@ -26,25 +26,39 @@ class SheetsService {
   private spreadsheetId: string;
 
   constructor() {
-  this.spreadsheetId = process.env.GOOGLE_SHEETS_ID || "";
+    this.spreadsheetId = process.env.GOOGLE_SHEETS_ID || "";
 
-  // Load Google Service Account credentials from JSON file
-  let credentials: any = undefined;
+    let credentials;
 
-  try {
-    const keyPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH || './google-service-account.json';
-    const keyFile = fs.readFileSync(path.resolve(keyPath), 'utf8');
-    credentials = JSON.parse(keyFile);
-    console.log('✅ Google service account loaded inside SheetsService');
-  } catch (error) {
-    console.error('❌ Failed to load Google service account key in SheetsService:', error);
+    // Prioritize environment variables for production (Render)
+    if (process.env.GOOGLE_CLIENT_EMAIL && process.env.GOOGLE_PRIVATE_KEY) {
+      credentials = {
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        // Replace escaped newlines for Render/production environments
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      };
+      console.log('✅ Google service account loaded from environment variables.');
+    } else {
+      // Fallback to file for local development
+      try {
+        const keyPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH || './google-service-account.json';
+        const keyFile = fs.readFileSync(path.resolve(keyPath), 'utf8');
+        credentials = JSON.parse(keyFile);
+        console.log('✅ Google service account loaded from file for local dev.');
+      } catch (error) {
+        console.error('❌ Failed to load Google service account key from file:', error);
+      }
+    }
+
+    if (!credentials) {
+      console.error('❌ Google Sheets credentials are not configured. Service will not work.');
+    }
+
+    this.auth = new GoogleAuth({
+      credentials,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
   }
-
-  this.auth = new GoogleAuth({
-    credentials,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  });
-}
 
 
   async logConversation(entry: ConversationLogEntry): Promise<void> {
