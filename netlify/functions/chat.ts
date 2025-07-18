@@ -46,7 +46,8 @@ class SheetsService {
 
   
 constructor() {
-  this.spreadsheetId = process.env.GOOGLE_SHEETS_ID || '1N-1r65Ip2NN_1qtrLlI4-y0pshMiTIBP6hxF0Z2-9d4';
+  // Spreadsheet ID must come from environment; no fallback to avoid mismatched IDs
+  this.spreadsheetId = process.env.GOOGLE_SHEETS_ID!;
 
   this.auth = new GoogleAuth({
     credentials: {

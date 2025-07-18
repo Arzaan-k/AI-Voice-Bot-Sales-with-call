@@ -11,7 +11,7 @@ const fromNumber = process.env.TWILIO_FROM_NUMBER ?? "";
 const publicBaseUrl = process.env.PUBLIC_BASE_URL ?? ""; // e.g. https://abcdef.ngrok.io
 
 const twilioClient = twilio(accountSid, authToken);
-const voiceName = "Polly.Aditi"; // Indian English female voice
+const voiceName = "Polly.Matthew"; // US English male voice
 
 const initiateCallSchema = z.object({
   phone: z.string().regex(/^\+91\d{10}$/),
